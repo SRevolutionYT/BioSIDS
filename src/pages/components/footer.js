@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, StatusBar, Image, Dimensions, TouchableOpacity} from 'react-native';
 
-import { Entypo } from '@expo/vector-icons'; 
-import { AntDesign } from '@expo/vector-icons';
+import { Entypo, AntDesign} from '@expo/vector-icons'; 
+
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -27,11 +27,11 @@ const footer = () => {
 return(
         
 <>
-<View style={styles.footer}>
+<View style={windowWidth >= 380? styles.footer : styles.footer2 }>
 
 <TouchableOpacity style={styles.btn} activeOpacity={0.4} onPress={handleNavigateToHome}>
   <Entypo style={styles.home} name="home" size={35} color="white"/> 
-  <Text style={styles.Newsletter}>News</Text>
+  <Text style={windowWidth >= 380 ? styles.Newsletter : styles.Newsletter2}>News</Text>
 </TouchableOpacity>
 
 <TouchableOpacity style={windowWidth >= 380 ? styles.fcam : styles.fcam2} activeOpacity={0.4} onPress={handleNavigateToCamera}>
@@ -54,6 +54,13 @@ const styles = StyleSheet.create({
     
     footer:{
         flex:0.1,
+        flexDirection:'row',
+        alignItems: 'center',
+        backgroundColor:'#344955',
+        
+    },
+    footer2:{
+        flex:0.15,
         flexDirection:'row',
         alignItems: 'center',
         backgroundColor:'#344955',
@@ -96,6 +103,11 @@ Newsletter:{
     marginLeft:'8%',
     color:'white',
 },
+Newsletter2:{
+    flex:1,
+    marginLeft:'-1%',
+    color:'white',
+},
 options:{
     flex:.25,
     color:'white',
@@ -111,7 +123,7 @@ fcam:{
     bottom:'35%',
 },
 fcam2:{
-    left:'41%',
+    left:'39%',
     position:'absolute',
     alignItems:'center',
     backgroundColor:'green',
@@ -119,7 +131,7 @@ fcam2:{
     width:70,
     borderRadius:700,
     marginBottom:'15%',
-    bottom:'5%',
+    bottom:'-20%',
 },
 btn:{
     position:'absolute',

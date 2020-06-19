@@ -2,13 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, View, StatusBar, Image, Dimensions, TouchableOpacity, SafeAreaView} from 'react-native';
 import { Entypo } from '@expo/vector-icons'; 
 
-import { useNavigation } from '@react-navigation/native';
-
 import Footer from '../components/footer';
 
 const Home = () => {
-    
-      const navigation = useNavigation();
 
       const windowWidth = Dimensions.get('window').width;
       const windowHeight = Dimensions.get('window').height;
