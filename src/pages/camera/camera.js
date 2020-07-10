@@ -65,28 +65,30 @@ export default function App() {
     </ImageBackground>
     :
     <View style={{ flex: 1 }}>
+    <View style={{flex:.2,backgroundColor:'black'}}>
+            <TouchableOpacity style={ Platform.OS === 'ios' ? { 
+                flex:1,
+                alignItems:"center",
+                alignSelf:'flex',
+                top:'40%',
+              }:
+              { 
+                flex:1,
+                alignItems:"center",
+                top:'40%',
+                right:'40%',
+              }
+              
+            } 
+            onPress={handleNavigateToHome}>
+                <MaterialCommunityIcons name="arrow-left" size={45} color="white" />
+            </TouchableOpacity>
+    </View>
       <Camera style={styles.cameradiv} type={type} ref={ref => setCameraRef(ref)}>
-          <TouchableOpacity style={ Platform.OS === 'ios' ? { 
-              flex:1,
-              alignItems:"center",
-              alignSelf:'flex',
-              top:'3%',
-            }:
-            { 
-              flex:1,
-              alignItems:"center",
-              top:'3%',
-              right:'40%',
-            }
-            
-          } 
-          onPress={handleNavigateToHome}>
-              <MaterialCommunityIcons name="arrow-left" size={45} color="white" />
-          </TouchableOpacity>
           </Camera>
         <View
           style={{
-            flex: 1,
+            flex: .3,
             alignItems: 'center',
             backgroundColor: 'black',
             flexDirection: 'row',
@@ -100,7 +102,7 @@ export default function App() {
             :
             {
               flex: 0.2,
-              top:'40%',
+              top:'-1%',
               alignItems: 'center',
             }
           
@@ -125,8 +127,8 @@ export default function App() {
           flex: 0.2,
           alignItems: 'center',
           bottom:'-1%',
-          top:'40%',
-          left:'24%',         
+          top:'-1%',
+          left:'58%',         
         }
       } onPress={async() => {
             if(CameraRef){
@@ -160,8 +162,9 @@ export default function App() {
           {
             alignContent: 'flex-end',
             alignItems: 'center',
-            top:'40%',
-            left:'48%',         
+            top:'-1%',
+            left:'120%',
+            right:'50%',         
           }
           
           } onPress={imagePickerCall}>
@@ -177,13 +180,10 @@ const styles = StyleSheet.create({
       flexDirection:'row',
     },
     preview: {
-      width: "100%",
-      height: "100%",
       flex: 1,
     },
     cameradiv:{
       flex:1,
-      width:'100%',
     },
   });
  
