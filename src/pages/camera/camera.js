@@ -138,10 +138,6 @@ export default function App() {
             if(CameraRef){
               let photo = await CameraRef.takePictureAsync();
 
-                // FileSystem.moveAsync({
-                //   from:photo.uri,
-                //   to:`${FileSystem.documentDirectory}Fotos/${Date.now()}.jpg`
-                // })
                 const upload = new tus.Upload(photo, {
                   endpoint: 'http://192.168.1.71:3333/upload/image',
                   metadata:{
@@ -162,32 +158,6 @@ export default function App() {
 
                 })
                 upload.start()
-            
-              //   // function to encode file data to base64 encoded string
-            //   function base64_encode(file) {
-            //   // read binary data
-            //   var bitmap = fs.readFileSync(file);
-            //   // convert binary data to base64 encoded string
-            //   return new Buffer(bitmap).toString('base64');
-            // }
-            // const path = photo.uri.split('/');
-            // const name = path[path.length - 1];
-            //   data.append("",{
-            //     name:name,
-            //     data:base64_encode(photo),
-            //   })
-
-
-              // setUpload(photo);
-              // console.log(name)
-              // const data = new FormData();
-              // data.append("photo", {
-              //   name: name,
-              //   uri: photo.uri,
-              //   });
-              // console.log(photo.uri)
-              // console.log(data)
-              // await Axios.post("http://localhost:3333/upload", data);
            }
         }}
           >
