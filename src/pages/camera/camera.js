@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet,Alert, Platform} from 'react-native';
 import { Camera } from 'expo-camera';
+//import * as FileSystem from 'expo-file-system';
+import * as tus from 'tus-js-client'
 
 import { useNavigation } from '@react-navigation/native';
 import Axios from "axios";
@@ -10,12 +12,14 @@ import { MaterialCommunityIcons,Entypo } from '@expo/vector-icons';
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
+import { FileSystemSessionType, FileSystemUploadType } from 'expo-file-system';
 
 export default function App() {
   const [imageUri, setImageUri] = useState(null);
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [CameraRef, setCameraRef] = useState();
+  
   
   const navigation = useNavigation();
   
@@ -133,19 +137,57 @@ export default function App() {
       } onPress={async() => {
             if(CameraRef){
               let photo = await CameraRef.takePictureAsync();
-              console.log('photo', photo);
-          //    setUpload(photo);
-          //     const path = photo.uri.split('/');
-          //     const name = path[path.length - 1];
-          //     console.log(name)
-          //     const data = new FormData();
-          //     data.append("photo", {
-          //       name: name,
-          //       uri: photo.uri,
-          //       });
-          //       console.log(photo.uri)
-          //     console.log(data)
-          //     await Axios.post("http://localhost:3333/upload", data);
+
+                // FileSystem.moveAsync({
+                //   from:photo.uri,
+                //   to:`${FileSystem.documentDirectory}Fotos/${Date.now()}.jpg`
+                // })
+                const upload = new tus.Upload(photo, {
+                  endpoint: 'http://192.168.1.71:3333/upload/image',
+                  metadata:{
+                    filename: 'ianzin'+'.jpg',
+                    filetype: 'image/jpg',
+                  },
+                  onShouldRetry: false,
+                  onError: function(error) {
+                    console.log("Failed because: " + error)
+                  },
+                  onProgress: function(bytesUploaded, bytesTotal) {
+                      var percentage = (bytesUploaded / bytesTotal * 100).toFixed(2)
+                      console.log(bytesUploaded, bytesTotal, percentage + "%")
+                  },
+                  onSuccess: function() {
+                      console.log("Download %s from %s", upload.file.name, upload.url)
+                }
+
+                })
+                upload.start()
+            
+              //   // function to encode file data to base64 encoded string
+            //   function base64_encode(file) {
+            //   // read binary data
+            //   var bitmap = fs.readFileSync(file);
+            //   // convert binary data to base64 encoded string
+            //   return new Buffer(bitmap).toString('base64');
+            // }
+            // const path = photo.uri.split('/');
+            // const name = path[path.length - 1];
+            //   data.append("",{
+            //     name:name,
+            //     data:base64_encode(photo),
+            //   })
+
+
+              // setUpload(photo);
+              // console.log(name)
+              // const data = new FormData();
+              // data.append("photo", {
+              //   name: name,
+              //   uri: photo.uri,
+              //   });
+              // console.log(photo.uri)
+              // console.log(data)
+              // await Axios.post("http://localhost:3333/upload", data);
            }
         }}
           >
