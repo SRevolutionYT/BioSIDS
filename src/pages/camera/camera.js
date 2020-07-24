@@ -88,7 +88,7 @@ export default function App() {
                 <MaterialCommunityIcons name="arrow-left" size={45} color="white" />
             </TouchableOpacity>
     </View>
-      <Camera style={styles.cameradiv} type={type} ref={ref => setCameraRef(ref)}>
+      <Camera style={styles.cameradiv} type={type} ref={ref => setCameraRef(ref)} ratio="4:3">
           </Camera>
         <View
           style={{
