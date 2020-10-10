@@ -42,7 +42,7 @@ export default function App() {
     if (!data.uri) {
       return;
     }
-    fs.uploadAsync('http://192.168.1.71:3333/teste',data.uri,{
+    fs.uploadAsync('http://192.168.1.71:3333/image',data.uri,{
       headers:{
         'Content-Type':'image/jpg',
       },
@@ -140,16 +140,17 @@ export default function App() {
           top:'-1%',
           left:'58%',         
         }
-      } onPress={async() => {
+      } onPress={async(req,res) => {
             if(CameraRef){
               let photo = await CameraRef.takePictureAsync();
-              fs.uploadAsync('http://192.168.1.71:3333/teste',photo.uri,{
+              fs.uploadAsync('http://192.168.1.71:3333/image',photo.uri,{
               headers:{
                 'Content-Type':'image/jpg',
               },
               httpMethod:"POST",
               })
            }
+           
         }}
           >
             <MaterialCommunityIcons name="camera" size={50} color="white" />
