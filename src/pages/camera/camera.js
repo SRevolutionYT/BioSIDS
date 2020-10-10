@@ -12,7 +12,7 @@ import { MaterialCommunityIcons,Entypo } from '@expo/vector-icons';
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
-import { FileSystemSessionType, FileSystemUploadType } from 'expo-file-system';
+import * as fs from 'expo-file-system';
 
 export default function App() {
   const [imageUri, setImageUri] = useState(null);
@@ -42,26 +42,12 @@ export default function App() {
     if (!data.uri) {
       return;
     }
-          const upload = new tus.Upload(data.uri, {
-            endpoint: 'http://192.168.1.71:3333/upload/image',
-            metadata:{
-              filename: 'ianzin'+'.jpg',
-              filetype: 'image/jpg',
-            },
-            onShouldRetry: false,
-            onError: function(error) {
-              console.log("Failed because: " + error)
-            },
-            onProgress: function(bytesUploaded, bytesTotal) {
-                const percentage = (bytesUploaded / bytesTotal * 100).toFixed(2)
-                console.log(bytesUploaded, bytesTotal, percentage + "%")
-            },
-            onSuccess: function() {
-                console.log("Download %s from %s", upload.file.name, upload.url)
-          }
-
-          })
-          upload.start()
+    fs.uploadAsync('http://192.168.1.71:3333/teste',data.uri,{
+      headers:{
+        'Content-Type':'image/jpg',
+      },
+      httpMethod:"POST",
+      })
      }
   
   function handleNavigateToHome(){
@@ -157,27 +143,12 @@ export default function App() {
       } onPress={async() => {
             if(CameraRef){
               let photo = await CameraRef.takePictureAsync();
-
-                const upload = new tus.Upload(photo, {
-                  endpoint: 'http://192.168.1.71:3333/upload/image',
-                  metadata:{
-                    filename: 'ianzin'+'.jpg',
-                    filetype: 'image/jpg',
-                  },
-                  onShouldRetry: false,
-                  onError: function(error) {
-                    console.log("Failed because: " + error)
-                  },
-                  onProgress: function(bytesUploaded, bytesTotal) {
-                      var percentage = (bytesUploaded / bytesTotal * 100).toFixed(2)
-                      console.log(bytesUploaded, bytesTotal, percentage + "%")
-                  },
-                  onSuccess: function() {
-                      console.log("Download %s from %s", upload.file.name, upload.url)
-                }
-
-                })
-                upload.start()
+              fs.uploadAsync('http://192.168.1.71:3333/teste',photo.uri,{
+              headers:{
+                'Content-Type':'image/jpg',
+              },
+              httpMethod:"POST",
+              })
            }
         }}
           >
