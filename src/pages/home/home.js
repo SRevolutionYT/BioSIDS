@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, StatusBar, Image, Dimensions, TouchableOpacity, SafeAreaView} from 'react-native';
+import { StyleSheet, Text, View, StatusBar, Image, Dimensions, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Entypo } from '@expo/vector-icons'; 
 
 import Footer from '../components/footer';
@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
         flex:1,
         alignItems: 'center',
         backgroundColor:'#DBDBDB',
+        
     },
     text:{
         paddingTop:'15%',

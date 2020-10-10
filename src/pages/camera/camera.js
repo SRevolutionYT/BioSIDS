@@ -32,7 +32,7 @@ export default function App() {
       }
     }
     const data = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All
+      mediaTypes: ImagePicker.MediaTypeOptions.Images
     });
     
     if (data.cancelled) {
@@ -42,7 +42,27 @@ export default function App() {
     if (!data.uri) {
       return;
     }
-  }
+          const upload = new tus.Upload(data.uri, {
+            endpoint: 'http://192.168.1.71:3333/upload/image',
+            metadata:{
+              filename: 'ianzin'+'.jpg',
+              filetype: 'image/jpg',
+            },
+            onShouldRetry: false,
+            onError: function(error) {
+              console.log("Failed because: " + error)
+            },
+            onProgress: function(bytesUploaded, bytesTotal) {
+                const percentage = (bytesUploaded / bytesTotal * 100).toFixed(2)
+                console.log(bytesUploaded, bytesTotal, percentage + "%")
+            },
+            onSuccess: function() {
+                console.log("Download %s from %s", upload.file.name, upload.url)
+          }
+
+          })
+          upload.start()
+     }
   
   function handleNavigateToHome(){
     navigation.navigate('Home');
@@ -180,7 +200,9 @@ export default function App() {
           }
           
           } onPress={imagePickerCall}>
-            <Entypo name="images" size={50} color="white" />
+            <Entypo name="images" size={50} color="white"/>
+            
+            
           </TouchableOpacity>    
         </View>
     </View>
