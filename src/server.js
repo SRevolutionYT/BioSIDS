@@ -1,39 +1,30 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const fs = require('fs');
-const multer = require('multer')
-const tus = require('tus-node-server')
-const nodemon = require('nodemon')
-const Jimp = require('jimp');
+const fs = require("fs");
+const sharp = require("sharp");
 
-const server = new tus.Server()
-var nome
-const nomeador = (req) => {
-   nome = Date.now()+'.jpg' 
-  return nome 
-}
-
-
-server.datastore = new tus.FileStore({
-  path:'/image',
-  namingFunction:nomeador,
-})
-
-// Jimp.read(`./image/${nome}.jpg`, (err, imagem) => {
-//   if (err) throw err;
-//   imagem
-//     .resize(1280, 720) // resize
-//     .greyscale() // set greyscale
-//     .write('tratada.jpg'); // save
-// });
-
-
-const uploadApp = express()
-uploadApp.all('*',server.handle.bind(server))
-
-
-app.use('/upload',uploadApp)
+app.use("/image", (req, res) => {
+  let nome = "" + Date.now();
+  const wstream = fs.createWriteStream(`./image/${nome}.jpg`);
+  req.pipe(wstream);
+  wstream.on("finish", () => {
+    sharp(`./image/${nome}.jpg`)
+      .resize(720, 480)
+      .toFile(`./tratadas/tratada.jpg`)
+      .then((data) => {
+        res.send("resposta"),
+          console.log("oi"),
+          fs.unlink(`./image/${nome}.jpg`, (err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+  console.log("Vitão");
+});
 
 app.listen(3333, function () {
-  console.log('Servidor aberto na porta: 3333!');
+  console.log("Servidor aberto na porta: 3333!");
 });
