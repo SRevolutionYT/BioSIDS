@@ -1,13 +1,15 @@
-import React from 'react';
-import { StyleSheet, Text, View, StatusBar, SafeAreaView} from 'react-native';
-import { AppLoading} from 'expo';
+import React from "react";
+import { StyleSheet, Text, View, StatusBar, SafeAreaView } from "react-native";
+import { AppLoading } from "expo";
 
-import Routes from './src/routes';
+import Routes from "./src/routes";
 
-import { Roboto_500Medium, Roboto_400Regular } from '@expo-google-fonts/roboto';
-import { Ubuntu_700Bold, useFonts} from '@expo-google-fonts/ubuntu';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import {Container} from 'native-base';
+import { Roboto_500Medium, Roboto_400Regular } from "@expo-google-fonts/roboto";
+import { Ubuntu_700Bold, useFonts } from "@expo-google-fonts/ubuntu";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Container } from "native-base";
+
+import Dark from "./src/varD";
 
 export default function App() {
   const [FontsLoaded] = useFonts({
@@ -15,18 +17,21 @@ export default function App() {
     Roboto_400Regular,
     Ubuntu_700Bold,
   });
-  
-  if(!FontsLoaded){
-     return <AppLoading />;
 
+  if (!FontsLoaded) {
+    return <AppLoading />;
   }
 
   return (
     <Container>
-    <SafeAreaProvider>
-      <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent/>
-      <Routes />
-    </SafeAreaProvider>
+      <SafeAreaProvider>
+        <StatusBar
+          barStyle="dark-content"
+          backgroundColor="transparent"
+          translucent
+        />
+        <Routes />
+      </SafeAreaProvider>
     </Container>
   );
 }
@@ -34,8 +39,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#DBDBDB',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#DBDBDB",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
